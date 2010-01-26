@@ -1,4 +1,4 @@
-All source code included in the "Routing" Symphony Extension archive
+All source code included in the "Dummy Image" Symphony Extension archive
 is, unless otherwise specified, released under the MIT licence as follows:
 
 ----- begin license block -----
