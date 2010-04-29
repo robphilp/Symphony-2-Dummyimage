@@ -46,11 +46,25 @@
 					$fontsize = 5;
 				}
 
-				$font = DOCROOT . '/extensions/dummyimage/assets/arial.ttf';// you want to use a different font simply upload the true type font (.ttf) file to the same directory as this PHP file and set the $font variable to the font file name. 
+				$font = DOCROOT . '/extensions/dummyimage/assets/AnonymousPro.ttf';// you want to use a different font simply upload the true type font (.ttf) file to the same directory as this PHP file and set the $font variable to the font file name. 
+				
+				// Background Colour
+				$backgroundRGB = array('r' => 204, 'g' => 204, 'b' => 204);
+				// get the background color from url if exists
+				if(isset($slices[3]) && $slices[3] != "") {
+					$backgroundRGB = $this->rgb2hex2rgb($slices[3]);
+				}
+				
+				// Text Colour
+				$textRGB = array('r' => 0, 'g' => 0, 'b' => 0);
+				// get the background color from url if exists
+				if(isset($slices[4]) && $slices[4] != "") {
+					$textRGB = $this->rgb2hex2rgb($slices[4]);
+				}  
 
 				$im = imageCreate($width,$height); //Create an image.
-				$gray = imageColorAllocate($im, 204, 204, 204); //Set the color gray for the background color. Hex value = #CCCCCC
-				$black = imageColorAllocate($im, 0, 0, 0); //Set the black color for the text
+				$backgroundColor = imageColorAllocate($im, $backgroundRGB['r'], $backgroundRGB['g'], $backgroundRGB['b']); //Set the color gray for the background color. Hex value = #CCCCCC
+				$textColor = imageColorAllocate($im, $textRGB['r'], $textRGB['g'], $textRGB['b']); //Set the black color for the text
 
 				$text = $width." X ".$height; //This is the text string that will go right in the middle of the gray rectangle.
 
@@ -61,8 +75,8 @@
 				$textX = ($width - $textWidth)/2; //Determines where to set the X position of the text box so it is centered.
 				$textY = ($height - $textHeight)/2 + $textHeight; //Determines where to set the Y position of the text box so it is centered.
 
-				imageFilledRectangle($im, 0, 0, $width, $height, $gray); //Creates the gray rectangle http://us2.php.net/manual/en/function.imagefilledrectangle.php
-				imagettftext($im, $fontsize, $angle, $textX, $textY, $black, $font, $text);	 //Create and positions the text http://us2.php.net/manual/en/function.imagettftext.php
+				imageFilledRectangle($im, 0, 0, $width, $height, $backgroundColor); //Creates the gray rectangle http://us2.php.net/manual/en/function.imagefilledrectangle.php
+				imagettftext($im, $fontsize, $angle, $textX, $textY, $textColor, $font, $text);	 //Create and positions the text http://us2.php.net/manual/en/function.imagettftext.php
 				header('Content-type: image/gif'); //Set the header so the browser can interpret it as an image and not a bunch of weird text.
 	
 				imagegif($im); //Create the final GIF image
@@ -88,6 +102,39 @@
     		}
     		return $ret;
 		}
+		
+		// Convert HEX to RGB Array http://www.php.net/manual/en/function.hexdec.php#93835
+		function rgb2hex2rgb($c){ 
+		   if(!$c) return false; 
+		   $c = trim($c); 
+		   $out = false; 
+		  if(preg_match("/^[0-9ABCDEFabcdef\#]+$/i", $c)){ 
+		      $c = str_replace('#','', $c); 
+		      $l = strlen($c) == 3 ? 1 : (strlen($c) == 6 ? 2 : false); 
+		
+		      if($l){ 
+		         unset($out); 
+		         $out[0] = $out['r'] = $out['red'] = hexdec(substr($c, 0,1*$l)); 
+		         $out[1] = $out['g'] = $out['green'] = hexdec(substr($c, 1*$l,1*$l)); 
+		         $out[2] = $out['b'] = $out['blue'] = hexdec(substr($c, 2*$l,1*$l)); 
+		      }else $out = false; 
+		              
+		   }elseif (preg_match("/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i", $c)){ 
+		      $spr = str_replace(array(',',' ','.'), ':', $c); 
+		      $e = explode(":", $spr); 
+		      if(count($e) != 3) return false; 
+		         $out = '#'; 
+		         for($i = 0; $i<3; $i++) 
+		            $e[$i] = dechex(($e[$i] <= 0)?0:(($e[$i] >= 255)?255:$e[$i])); 
+		              
+		         for($i = 0; $i<3; $i++) 
+		            $out .= ((strlen($e[$i]) < 2)?'0':'').$e[$i]; 
+		                  
+		         $out = strtoupper($out); 
+		   }else $out = false; 
+		          
+		   return $out; 
+		} 
 			
 	}
 
