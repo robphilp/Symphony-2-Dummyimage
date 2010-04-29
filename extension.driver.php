@@ -52,14 +52,20 @@
 				$backgroundRGB = array('r' => 204, 'g' => 204, 'b' => 204);
 				// get the background color from url if exists
 				if(isset($slices[3]) && $slices[3] != "") {
-					$backgroundRGB = $this->rgb2hex2rgb($slices[3]);
+					if ( $slices[3] == "random" || $slices[3] == "Random" || $slices[3] == "RANDOM" ||$slices[3] == "r" ||$slices[3] == "R" ) 
+						$backgroundRGB =  array('r' => rand(0, 255), 'g' => rand(0, 255), 'b' => rand(0, 255));
+					else
+						$backgroundRGB = $this->rgb2hex2rgb($slices[3]);
 				}
 				
 				// Text Colour
 				$textRGB = array('r' => 0, 'g' => 0, 'b' => 0);
 				// get the background color from url if exists
 				if(isset($slices[4]) && $slices[4] != "") {
-					$textRGB = $this->rgb2hex2rgb($slices[4]);
+					if ( $slices[4] == "random" || $slices[4] == "Random" || $slices[4] == "RANDOM" ||$slices[4] == "r" ||$slices[4] == "R" ) 
+						$textRGB =  array('r' => rand(0, 255), 'g' => rand(0, 255), 'b' => rand(0, 255));
+					else
+						$textRGB = $this->rgb2hex2rgb($slices[4]);
 				}  
 
 				$im = imageCreate($width,$height); //Create an image.
@@ -102,6 +108,8 @@
     		}
     		return $ret;
 		}
+		
+		
 		
 		// Convert HEX to RGB Array http://www.php.net/manual/en/function.hexdec.php#93835
 		function rgb2hex2rgb($c){ 
