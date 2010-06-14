@@ -25,13 +25,9 @@
 		}
 
 		public function frontendPrePageResolve($context) {
-			/*echo "<pre>";
-			print_r($context);
-			echo "</pre>";
-			exit;*/
+
 			$slices = explode("/", $context['page']);
-			#var_dump($slices);
-			#exit;
+
 			if(strtolower($slices[1]) == "dummyimage") {
 				// Dynamic Dummy Image Generator - DummyImage.com
 				$x = $slices[2]; //GET the query string from the URL. x would = 600x400 if the url was http://dummyimage.com/600x400
@@ -46,7 +42,7 @@
 					$fontsize = 5;
 				}
 
-				$font = DOCROOT . '/extensions/dummyimage/assets/AnonymousPro.ttf';// you want to use a different font simply upload the true type font (.ttf) file to the same directory as this PHP file and set the $font variable to the font file name. 
+				$font = DOCROOT . '/extensions/dummyimage/assets/arial.ttf';// you want to use a different font simply upload the true type font (.ttf) file to the same directory as this PHP file and set the $font variable to the font file name. 
 				
 				// Background Colour
 				$backgroundRGB = array('r' => 204, 'g' => 204, 'b' => 204);
