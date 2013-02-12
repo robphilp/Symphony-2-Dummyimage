@@ -4,8 +4,8 @@
 	
 		public function about() {
 			return array('name' => 'Dummy Image Generator',
-						 'version' => '0.1',
-						 'release-date' => '2010-01-26',
+						 'version' => '0.2',
+						 'release-date' => '2013-02-12',
 						 'author' => array('name' => 'Robert Philp',
 										   'website' => 'http://robertphilp.com',
 										   'email' => ''),
